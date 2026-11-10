@@ -1,4 +1,4 @@
-const CACHE = "otani-v1";
+const CACHE = "otani-v2";
 const ASSETS = ["./", "index.html", "tasks.json", "manifest.webmanifest", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", (e) => {

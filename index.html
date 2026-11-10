@@ -4,84 +4,108 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Отани 280</title>
-<meta name="theme-color" content="#0e6a4e">
+<meta name="theme-color" content="#fbfcfe" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141c2e" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Отани">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;700&family=Unbounded:wght@700;900&display=swap">
 <style>
+/* Лист школьной тетради: линованные строки, красное поле, синяя паста, жёлтый маркер на главном */
 :root{
-  --bg:#f1f4f3; --surface:#ffffff; --ink:#15211d; --muted:#5b6a65; --line:#d5ddd9;
-  --accent:#0e6a4e; --accent-soft:#dcefe7; --on-accent:#ffffff; --warn:#b3261e;
+  --paper:#fbfcfe; --ink:#1b2a4a; --muted:#6b7896; --rule:#cdd9ec; --margin:#d9443f; --mark:#ffe45c; --on-ink:#fbfcfe;
+  --body:"Onest",-apple-system,"Segoe UI",Roboto,Arial,sans-serif; --display:"Unbounded","Onest",-apple-system,Arial,sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){ :root{
-  --bg:#0f1513; --surface:#18201d; --ink:#e7edea; --muted:#94a39d; --line:#2b3632;
-  --accent:#4cc299; --accent-soft:#17352b; --on-accent:#08130f; --warn:#ff8a80; color-scheme:dark } }
+  --paper:#141c2e; --ink:#e6ecf8; --muted:#8e9bb8; --rule:#2a3653; --margin:#e0635f; --mark:#6a5a14; --on-ink:#141c2e; color-scheme:dark } }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+body{background:var(--paper);color:var(--ink);font:16px/1.35 var(--body);
   padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
-.wrap{max-width:720px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px));
-  display:flex;flex-direction:column;gap:14px}
-header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
-h1{font-size:1.45rem;margin:0;font-weight:800;letter-spacing:-.01em}
-.date{color:var(--muted);font-size:.9rem;margin-top:2px}
-.streak{text-align:right;font-size:.8rem;color:var(--muted);white-space:nowrap}
-.streak b{display:block;font-size:1.5rem;color:var(--accent);line-height:1}
-.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
-.tabs button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;padding:9px;border-radius:8px}
-.tabs button[aria-selected="true"]{background:var(--accent);color:var(--on-accent)}
-.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
-.progress{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--muted)}
-h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:6px 0 0;font-weight:700}
-.list{display:flex;flex-direction:column;gap:6px}
-.task{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;cursor:pointer}
-.task input{appearance:none;flex:none;width:24px;height:24px;border:2px solid var(--muted);border-radius:7px;margin:0;display:grid;place-items:center}
-.task input:checked{background:var(--accent);border-color:var(--accent)}
-.task input:checked::after{content:"";width:6px;height:11px;border:solid var(--on-accent);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translateY(-1px)}
-.task input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.task.core{border-color:var(--accent)}
-.task.done span{color:var(--muted);text-decoration:line-through}
-.task small{display:block;color:var(--muted);font-size:.78rem;margin-top:2px}
-.task small.late{color:var(--warn);font-weight:600}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;font-size:.9rem}
-.card p{margin:0}
-.btn{appearance:none;border:0;border-radius:9px;background:var(--accent);color:var(--on-accent);font:inherit;font-weight:700;padding:12px}
-.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.wrap{padding:18px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px))}
+.narrow{max-width:640px;margin:0 auto}
+
+.top{display:grid;grid-template-columns:auto 1fr auto;align-items:end;column-gap:12px}
+.daynum{font:900 4.4rem/.82 var(--display);letter-spacing:-.04em}
+.daymeta{font-size:1.05rem;line-height:1.2;padding-bottom:2px}
+.daymeta div:first-child{font-weight:700}
+.run{text-align:right;font-size:.82rem;color:var(--muted);padding-bottom:2px}
+.week{display:flex;gap:3px;justify-content:flex-end;margin-bottom:5px}
+.week i{width:13px;height:13px;border:1.5px solid var(--ink)}
+.week i.on{background:var(--ink)}
+.week i.today{border-color:var(--margin)}
+.week i.today.on{background:var(--margin)}
+
+.tabs{display:flex;gap:22px;margin-top:22px;border-bottom:1.5px solid var(--ink)}
+.tabs button{appearance:none;border:0;background:none;color:var(--muted);font:600 1rem var(--body);padding:8px 0 9px;margin-bottom:-1.5px;border-bottom:4px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.tabs button:focus-visible,.btn:focus-visible{outline:2px solid var(--margin);outline-offset:3px}
+
+.tally{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:.88rem;color:var(--muted)}
+.cellsrow{display:flex;gap:3px;flex-wrap:wrap}
+.cellsrow i{width:16px;height:16px;border:1.5px solid var(--ink)}
+.cellsrow i.on{background:var(--ink)}
+
+.sheet{position:relative;margin-top:6px}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:38px;width:1.5px;background:var(--margin);opacity:.75}
+.sheet h2{font:700 1.05rem var(--body);margin:0;padding:22px 0 8px 50px;border-bottom:1px solid var(--rule)}
+.task{display:grid;grid-template-columns:38px 1fr;column-gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid var(--rule);cursor:pointer}
+.task input{appearance:none;width:20px;height:20px;margin:1px 0 0;justify-self:center;border:1.5px solid var(--ink);border-radius:3px;position:relative;background:var(--paper)}
+.task input:checked::after{content:"";position:absolute;left:5px;top:-5px;width:8px;height:17px;border:solid var(--ink);border-width:0 2.5px 2.5px 0;transform:rotate(40deg)}
+.task input:focus-visible{outline:2px solid var(--margin);outline-offset:2px}
+.task.core span{font-weight:600;background:linear-gradient(transparent 52%,var(--mark) 52%);-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 2px}
+.task.done span{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1.5px}
+.task small{display:block;color:var(--muted);font-size:.8rem;margin-top:3px}
+.task small.late{color:var(--margin);font-weight:700}
+
+.note{padding:22px 0 0 50px;display:flex;flex-direction:column;gap:10px;font-size:.92rem}
+.note p{margin:0}
+.note .title{font-weight:700;font-size:1.05rem}
+.status{color:var(--muted)}
+.btn{appearance:none;border:1.5px solid var(--ink);border-radius:4px;background:var(--ink);color:var(--on-ink);font:700 1rem var(--body);padding:12px 14px;text-align:left}
+.btn.ghost{background:none;color:var(--ink)}
 .btn:disabled{opacity:.5}
-.status{color:var(--muted);font-size:.84rem}
-.mandala{display:grid;grid-template-columns:1fr;gap:16px}
-.block{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
-.cell{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 5px;min-height:92px;font-size:.72rem;line-height:1.25;
+
+.mandala{display:grid;grid-template-columns:1fr;gap:14px;margin-top:18px}
+.block{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1.5px solid var(--ink)}
+.cell{border:.5px solid var(--rule);padding:8px 5px;min-height:92px;font-size:.74rem;line-height:1.25;
   display:flex;align-items:center;justify-content:center;text-align:center;hyphens:auto;overflow-wrap:anywhere}
-.cell.dir{background:var(--accent-soft);border-color:var(--accent);font-weight:800;font-size:.8rem;hyphens:manual}
-.cell.goal{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:800;font-size:.95rem;flex-direction:column;gap:2px}
-.cell.goal small{font-weight:500;font-size:.7rem}
+.cell.dir{background:var(--mark);font-weight:700;font-size:.8rem;hyphens:manual}
+.cell.goal{background:var(--ink);color:var(--on-ink);font:700 .9rem var(--display);flex-direction:column;gap:4px}
+.cell.goal small{font:400 .72rem var(--body)}
+@media (min-width:1000px){
+  .mandala{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-areas:"a b c" "d z e" "f g h";gap:8px;max-width:1400px;margin-inline:auto}
+  .block{grid-area:var(--area)}
+}
+@media (prefers-reduced-motion:no-preference){ .cellsrow i,.week i{transition:background .15s} }
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <div><h1>План на сегодня</h1><div class="date" id="date"></div></div>
-    <div class="streak"><b id="streak">0</b>дней подряд</div>
-  </header>
-
-  <div class="tabs" role="tablist">
-    <button role="tab" id="tab-today" aria-selected="true">Сегодня</button>
-    <button role="tab" id="tab-table" aria-selected="false">Таблица</button>
+  <div class="narrow">
+    <header class="top">
+      <div class="daynum" id="daynum"></div>
+      <div class="daymeta"><div id="dayname"></div><div id="month"></div></div>
+      <div class="run"><div class="week" id="week" aria-hidden="true"></div><div id="streak"></div></div>
+    </header>
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tab-today" aria-selected="true">Сегодня</button>
+      <button role="tab" id="tab-table" aria-selected="false">Таблица</button>
+    </div>
   </div>
 
-  <section id="view-today">
-    <div class="wrap" style="padding:0;gap:14px">
-      <div class="progress"><span id="ptext">Загружаю задачи…</span><div class="bar"><i id="pbar"></i></div></div>
-      <div id="tasks" class="wrap" style="padding:0;gap:8px"></div>
-      <div class="card" id="push">
-        <p><b>Уведомления в 6:30</b></p>
+  <section id="view-today" class="narrow">
+    <div class="tally"><div class="cellsrow" id="cells" aria-hidden="true"></div><span id="ptext">Загружаю задачи…</span></div>
+    <div class="sheet">
+      <div id="tasks"></div>
+      <div class="note" id="push">
+        <p class="title">Уведомления в 6:30</p>
         <p class="status" id="pstatus">Проверяю…</p>
         <button class="btn" id="penable" hidden>Включить уведомления</button>
         <button class="btn ghost" id="ptest" hidden>Прислать тестовое сейчас</button>
@@ -145,7 +169,9 @@ function taskRow(text, checked, cls, note, noteCls, onChange) {
 }
 function renderToday() {
   var now = new Date(), k = key(now), done = days[k] || [];
-  $("date").textContent = now.toLocaleDateString("ru-RU", { weekday: "long", day: "numeric", month: "long" });
+  $("daynum").textContent = now.getDate();
+  $("dayname").textContent = now.toLocaleDateString("ru-RU", { weekday: "long" });
+  $("month").textContent = now.toLocaleDateString("ru-RU", { day: "numeric", month: "long" }).replace(/^\d+\s*/, "");
   var list = buildDay(now), box = $("tasks");
   box.textContent = "";
   function toggle(id, on) {
@@ -186,8 +212,13 @@ function renderToday() {
 
   var total = list.length, n = list.filter(function (t) { return done.indexOf(t.id) >= 0; }).length;
   $("ptext").textContent = "Сделано " + n + " из " + total;
-  $("pbar").style.width = (total ? Math.round(n / total * 100) : 0) + "%";
-  $("streak").textContent = streak();
+  var cells = $("cells"); cells.textContent = "";
+  for (var ci = 0; ci < total; ci++) cells.appendChild(el("i", ci < n ? "on" : ""));
+  var st = streak(), m10 = st % 10, m100 = st % 100;
+  var word = (m10 === 1 && m100 !== 11) ? "день" : (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) ? "дня" : "дней";
+  $("streak").textContent = st + " " + word + " подряд";
+  var wk = $("week"); wk.textContent = "";
+  for (var wi = 6; wi >= 0; wi--) { var wd = addDays(now, -wi); wk.appendChild(el("i", (coreDone(wd) ? "on" : "") + (wi === 0 ? " today" : ""))); }
 }
 
 /* ---------- tabs ---------- */
@@ -212,14 +243,15 @@ var M = [
  ["Дом и семья", ["Бюджет и срок ремонта согласованы с женой до 30.11", "Смета ремонта по комнатам до 15.12", "3 предложения от бригад до 31.12", "30 минут на ремонт каждое воскресенье", "Расходы семьи записаны раз в неделю", "50% каждого квартального бонуса в фонд ремонта", "1 вечер в неделю с женой без телефонов", "Помощь жене с работой: до 2 часов в неделю в выбранный заранее слот"]]
 ];
 (function () {
-  var m = $("mandala"), cb = el("div", "block"), i, k = 0;
+  var m = $("mandala"), cb = el("div", "block"), i, k = 0, areas = "abcdefgh";
+  cb.style.setProperty("--area", "z");
   for (i = 0; i < 9; i++) {
     if (i === 4) { var g = el("div", "cell goal", "Цель года"); g.appendChild(el("small", "", "10–15 клиентов")); cb.appendChild(g); }
     else cb.appendChild(el("div", "cell dir", M[k++][0]));
   }
   m.appendChild(cb);
-  M.forEach(function (d) {
-    var b = el("div", "block"), j = 0;
+  M.forEach(function (d, n) {
+    var b = el("div", "block"), j = 0; b.style.setProperty("--area", areas[n]);
     for (var i = 0; i < 9; i++) b.appendChild(i === 4 ? el("div", "cell dir", d[0]) : el("div", "cell", d[1][j++]));
     m.appendChild(b);
   });
